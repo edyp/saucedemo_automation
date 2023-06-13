@@ -1,13 +1,10 @@
 import random
-from time import sleep
 import pytest
-from common.logger import Logger
 from pages.login_page import LoginPage
 from pages.inventory_page import InventoryPage
 from pages.item_details_page import ItemDetailsPage
 
 
-LOG = Logger()
 INDEX_1, INDEX_2 = tuple(random.sample(range(0, 5), 2))
 
 def test_add_2_items_to_cart_on_items_list_page(driver, default_credentials):

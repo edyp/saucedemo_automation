@@ -69,12 +69,24 @@ def pytest_sessionfinish(session, exitstatus):
     Path(path).unlink(missing_ok=True)
     LOG.info(17*'#'+' Environment clean! '+18*'#')
 
+def load_json(path_as_a_list):
+    """Load json file and return contetn."""
+    path = os.path.join(*path_as_a_list)
+    with open(path, 'r') as dc_json:
+        return json.load(dc_json)
+
 @pytest.fixture
 def default_credentials():
     """Provide list of dicts with credentials for test case.
     Returns:
     (list of [dict of {str: str}]) -- list of dicts with username and password
     """
-    path = os.path.join('common', 'static', 'default_credentials.json')
-    with open(path, 'r') as dc_json:
-        return json.load(dc_json)
+    return load_json(['common', 'static', 'default_credentials.json'])
+
+@pytest.fixture
+def personal_data():
+    """Provide list of dicts with personal data for test case.
+    Returns:
+    (list of [dict of {str: str}]) -- list of dicts with username and password
+    """
+    return load_json(['common', 'static', 'personal_data.json'])

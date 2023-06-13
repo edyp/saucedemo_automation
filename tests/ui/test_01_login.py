@@ -2,10 +2,8 @@ import os
 import json
 import pytest
 from pages.login_page import LoginPage
-from common.logger import Logger
 
 
-LOG = Logger()
 def get_credential_list():
     path = os.path.join('common', 'static', 'default_credentials.json')
     with open(path, 'r') as dc_json:
