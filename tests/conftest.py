@@ -42,9 +42,7 @@ def concat_static_file_path(file_name):
     return os.path.join(rootdir, *new_json_file_path)
 
 def pytest_sessionstart(session):
-    """This hook define environment setup and cleanning procedure before
-    collecting tests for session.
-    """
+    """This hook define environment setup procedure before collecting tests for session."""
     # Session setup
     LOG.info(10*'#'+' Preparing envirnoment for session '+10*'#')
     LOG.info(18*'#'+f' BROWSER: {session.config.option.browser} '+18*'#')
@@ -65,7 +63,18 @@ def pytest_sessionstart(session):
     LOG.info(17*'#'+' Environment ready! '+18*'#')
 
 def pytest_sessionfinish(session, exitstatus):
+    """This hook define environment cleanning procedure after session ends."""
     # Session teardown cleanning
     path = concat_static_file_path('default_credentials.json')
     Path(path).unlink(missing_ok=True)
     LOG.info(17*'#'+' Environment clean! '+18*'#')
+
+@pytest.fixture
+def default_credentials():
+    """Provide list of dicts with credentials for test case.
+    Returns:
+    (list of [dict of {str: str}]) -- list of dicts with username and password
+    """
+    path = os.path.join('common', 'static', 'default_credentials.json')
+    with open(path, 'r') as dc_json:
+        return json.load(dc_json)
